@@ -83,6 +83,23 @@ const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL
 				font-style: italic;
 				margin-top: 0.25rem;
 			}
+			.post-nav {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 4rem;
+				padding-top: 2rem;
+				border-top: 1px solid var(--border-color);
+				font-family: var(--font-mono, monospace);
+				font-size: 0.9rem;
+			}
+			.post-nav .nav-link {
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.post-nav .nav-link:hover {
+				text-decoration: underline;
+			}
 		</style>
 	</head>
 
@@ -120,6 +137,12 @@ const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL
 				<div class="prose">
 					<slot />
 				</div>
+				<nav class="post-nav">
+					<a href={`${baseUrl}/`} class="nav-link">← All posts</a>
+					{tags && tags.length > 0 && (
+						<a href={`${baseUrl}/tags/${tags[0]}/`} class="nav-link">More in {tags[0].charAt(0).toUpperCase() + tags[0].slice(1)} →</a>
+					)}
+				</nav>
 			</article>
 		</main>
 		<Footer />
