@@ -1,6 +1,6 @@
 ---
-title: 'Payment Orchestration: A Look at Our Tech Stack'
-description: 'An overview of the technologies powering our banking payment orchestration platform.'
+title: 'Adaptive Throttling in Kafka Data Pipelines'
+description: 'A technical report on implementing resilient Kafka pipelines using adaptive throttling with Bucket4j, Redis, and Resilience4j.'
 pubDate: 'Jun 26 2026'
 heroImage: '../../assets/throttle.png'
 tags: ['architecture', 'kafka', 'aws']
