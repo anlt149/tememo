@@ -16,45 +16,83 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			.page-header {
+				margin-bottom: 2rem;
+			}
+			.page-title {
+				font-size: 2.25rem;
+				font-weight: 800;
+				margin-top: 2.5rem;
+				font-family: var(--font-sans);
+				color: var(--heading-color);
+			}
+			.github-link {
+				font-size: 0.875rem;
+				color: var(--gray-500);
+				text-decoration: none;
+				margin-top: 0.25rem;
+				display: block;
+				font-family: var(--font-sans);
+			}
+			.section-title {
+				font-size: 1.5rem;
+				font-weight: 600;
+				font-family: var(--font-serif);
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+			}
+			.section-title a {
+				color: var(--heading-color);
+				text-decoration: none;
+			}
 			ul {
 				list-style-type: none;
 				padding: 0;
-				margin: 2rem 0;
+				margin: 0;
 			}
 			li {
-				margin-bottom: 2rem;
 				display: flex;
-				flex-direction: column;
-				gap: 0.25rem;
+				flex-direction: row;
+				line-height: 1.75rem;
+				margin-bottom: 0.5rem;
 			}
-			li a {
+			.post-date {
+				flex: none;
+				color: var(--gray-400);
+				font-family: var(--font-sans);
+			}
+			.post-link {
+				margin-left: 1.25rem;
+				color: var(--accent);
 				text-decoration: none;
-				color: var(--text-color);
-				font-size: 1.25rem;
-				font-weight: 500;
+				font-family: var(--font-serif);
 			}
-			li a:hover {
-				opacity: 0.6;
-			}
-			.post-meta {
-				color: var(--text-muted);
-				font-size: 0.9rem;
+			.post-link:hover {
+				text-decoration: underline;
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
+			<header class="page-header">
+				<div class="page-title">everyday: Development Log</div>
+				<a class="github-link" href="https://github.com/anlt149">Github Repository</a>
+			</header>
+
+			<div class="section-title">
+				<a href="#recently-added">Recently Added</a>
+			</div>
 			<ul>
 				{
 					posts.map((post) => (
 						<li>
-							<a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/${post.id}/`}>
+							<span class="post-date">
+								<FormattedDate date={post.data.pubDate} />
+							</span>
+							<a class="post-link" href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/${post.id}/`}>
 								{post.data.title}
 							</a>
-							<div class="post-meta">
-								<FormattedDate date={post.data.pubDate} />
-							</div>
 						</li>
 					))
 				}
