@@ -4,21 +4,42 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+
+// Strip BASE_URL from the current pathname for active state matching
+const basePath = import.meta.env.BASE_URL;
+let pathname = Astro.url.pathname;
+if (basePath !== '/' && pathname.startsWith(basePath)) {
+	pathname = '/' + pathname.slice(basePath.length);
+}
 const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+
+// Process href for base URL compatibility
+let targetHref = href;
+if (typeof targetHref === 'string' && targetHref.startsWith('/')) {
+	const base = basePath.replace(/\/$/, '');
+	targetHref = base + targetHref;
+}
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a href={targetHref} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
 </a>
 <style>
 	a {
 		display: inline-block;
 		text-decoration: none;
+		color: #cbd5e1;
+		font-weight: 500;
+		padding: 0.5rem 0;
+		border-bottom: 2px solid transparent;
+		transition: all 0.2s ease;
+	}
+	a:hover {
+		color: #f8fafc;
 	}
 	a.active {
-		font-weight: bolder;
-		text-decoration: underline;
+		color: #38bdf8;
+		border-bottom-color: #38bdf8;
 	}
 </style>
