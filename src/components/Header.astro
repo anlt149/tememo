@@ -5,37 +5,107 @@ import { SITE_TITLE } from '../consts';
 <header class="site-header">
 	<div class="header-container">
 		<nav>
-			<a aria-current="page" href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/`}>
+			<a aria-current="page" class="site-title" href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/`}>
 				{SITE_TITLE}<span class="cursor">▮</span>
 			</a>
 		</nav>
+		<div class="header-right">
+			<a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/tags/`} class="tags-link">Tags</a>
+			<button id="theme-toggle" aria-label="Toggle dark mode">
+				<svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+				<svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+			</button>
+		</div>
 	</div>
 </header>
+
+<script>
+	const themeToggleBtn = document.getElementById('theme-toggle');
+	const sunIcon = document.getElementById('sun-icon');
+	const moonIcon = document.getElementById('moon-icon');
+
+	function updateIcons(theme: string | null) {
+		if (theme === 'dark') {
+			sunIcon!.style.display = 'block';
+			moonIcon!.style.display = 'none';
+		} else {
+			sunIcon!.style.display = 'none';
+			moonIcon!.style.display = 'block';
+		}
+	}
+
+	const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+	updateIcons(currentTheme);
+
+	themeToggleBtn?.addEventListener('click', () => {
+		document.documentElement.classList.toggle('dark');
+		const isDark = document.documentElement.classList.contains('dark');
+		const theme = isDark ? 'dark' : 'light';
+		localStorage.setItem('theme', theme);
+		updateIcons(theme);
+	});
+</script>
+
 <style>
 	.site-header {
-		background-color: var(--stone-100);
+		background-color: transparent;
+		border-bottom: 1px solid var(--border-color);
 		height: 4rem;
 		display: flex;
 		align-items: center;
-		font-family: var(--font-serif);
+		font-family: var(--font-sans);
 	}
 	.header-container {
 		width: 100%;
 		max-width: 42rem;
 		margin: 0 auto;
 		padding: 0 1.25rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
-	nav a {
-		font-size: 1.125rem;
-		font-weight: 700;
+	.site-title {
+		font-size: 1.25rem;
+		font-weight: 800;
 		color: var(--heading-color);
 		text-decoration: none;
+		letter-spacing: -0.02em;
 	}
 	.cursor {
-		color: var(--stone-500);
+		color: var(--accent);
 		animation: blink 1.25s linear infinite;
 	}
 	@keyframes blink {
 		50% { opacity: 0; }
+	}
+	.header-right {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	.tags-link {
+		color: var(--text-muted);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.95rem;
+		transition: color 0.2s;
+	}
+	.tags-link:hover {
+		color: var(--heading-color);
+	}
+	#theme-toggle {
+		background: none;
+		border: none;
+		color: var(--heading-color);
+		cursor: pointer;
+		padding: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.25rem;
+		transition: background-color 0.2s;
+	}
+	#theme-toggle:hover {
+		background-color: var(--bg-highlight);
 	}
 </style>

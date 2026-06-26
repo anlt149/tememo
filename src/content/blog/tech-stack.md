@@ -3,6 +3,7 @@ title: 'Payment Orchestration: A Look at Our Tech Stack'
 description: 'An overview of the technologies powering our banking payment orchestration platform.'
 pubDate: 'Jun 26 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
+tags: ['architecture', 'kafka', 'aws']
 ---
 
 # Introduction

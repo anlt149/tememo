@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+
+export async function getStaticPaths() {
+	const allPosts = await getCollection('blog');
+	const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags || []).flat())];
+
+	return uniqueTags.map((tag) => {
+		const filteredPosts = allPosts.filter((post) => post.data.tags?.includes(tag));
+		return {
+			params: { tag },
+			props: { posts: filteredPosts },
+		};
+	});
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${tag} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			.page-header {
+				margin-bottom: 2rem;
+			}
+			.page-title {
+				font-size: 2.25rem;
+				font-weight: 800;
+				margin-top: 2.5rem;
+				font-family: var(--font-sans);
+				color: var(--heading-color);
+			}
+			ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+			li {
+				display: flex;
+				flex-direction: row;
+				line-height: 1.75rem;
+				margin-bottom: 0.5rem;
+			}
+			.post-date {
+				flex: none;
+				color: var(--text-muted);
+				font-family: var(--font-sans);
+			}
+			.post-link {
+				margin-left: 1.25rem;
+				color: var(--accent);
+				text-decoration: none;
+				font-family: var(--font-serif);
+			}
+			.post-link:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<header class="page-header">
+				<div class="page-title">Posts tagged with "{tag}"</div>
+			</header>
+			<ul>
+				{posts.map((post) => (
+					<li>
+						<span class="post-date">
+							<FormattedDate date={post.data.pubDate} />
+						</span>
+						<a class="post-link" href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '')}/${post.id}/`}>{post.data.title}</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
