@@ -162,6 +162,7 @@ public class AdaptivePaymentListener {
     .
     Pseudo-Code Implementation
     This example demonstrates how to combine an ExecutorService with partition-level pausing.
+    ```java
     @KafkaListener(id = "async-payment-listener", topics = "payments", ackMode = "MANUAL")
     public void onMessage(ConsumerRecord<String, String> record, Acknowledgment ack, Consumer<?, ?> consumer) {
 
@@ -187,6 +188,7 @@ public class AdaptivePaymentListener {
         });
 
     }
+    ```
     Critical Watch-Outs for Phase 3
     Thread Safety: Always use the native pause() and resume() methods provided by Spring Kafka (introduced in version 2.1.3), as they are specifically designed for thread-safe execution across the application and consumer threads
     .
