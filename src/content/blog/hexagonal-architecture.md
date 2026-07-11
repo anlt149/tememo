@@ -56,7 +56,7 @@ com.example.app
 ├── adapter.out.cache       (Spring Data Redis)
 ├── adapter.out.messaging   (Kafka / MQ Producers)
 └── config                  (Spring @Configuration wiring)
-
+```
 
 # Trade-offs
 ## Pros:
