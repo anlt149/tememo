@@ -5,9 +5,9 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { id?: string };
 
-const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, id } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -83,6 +83,25 @@ const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL
 				font-style: italic;
 				margin-top: 0.25rem;
 			}
+			.export-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.25rem;
+				font-family: var(--font-sans);
+				font-size: 0.85rem;
+				color: var(--accent);
+				background: none;
+				border: 1px solid var(--accent);
+				padding: 0.2rem 0.6rem;
+				border-radius: 0.3rem;
+				text-decoration: none;
+				margin-left: auto;
+				transition: all 0.2s;
+			}
+			.export-btn:hover {
+				background-color: var(--accent);
+				color: var(--bg-color);
+			}
 			.post-nav {
 				display: flex;
 				justify-content: space-between;
@@ -123,15 +142,27 @@ const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL
 							))}
 						</div>
 					)}
-					<div class="date">
-						<FormattedDate date={pubDate} />
-						{
-							updatedDate && (
-								<div class="last-updated-on">
-									(Updated: <FormattedDate date={updatedDate} />)
-								</div>
-							)
-						}
+					<div class="date" style="display: flex; align-items: center; flex-wrap: wrap; gap: 1rem;">
+						<div>
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										(Updated: <FormattedDate date={updatedDate} />)
+									</div>
+								)
+							}
+						</div>
+						{id && (
+							<a href={`${baseUrl}/blog/${id}.md`} class="export-btn" download={`${id}.md`}>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+									<polyline points="7 10 12 15 17 10"></polyline>
+									<line x1="12" y1="15" x2="12" y2="3"></line>
+								</svg>
+								Export Markdown
+							</a>
+						)}
 					</div>
 				</header>
 				<div class="prose">
