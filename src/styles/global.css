@@ -29,6 +29,10 @@ html.dark {
 	--border-color: #073642;
 }
 
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
@@ -140,4 +144,24 @@ blockquote {
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+	main {
+		margin: 2rem auto;
+		padding: 0 1rem;
+	}
+	h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+	h2 { font-size: 1.75rem; }
+	h3 { font-size: 1.5rem; }
+	h4 { font-size: 1.25rem; }
+	blockquote {
+		margin: 0 0 1.5rem -1rem;
+		padding: 0 0 0 1rem;
+		font-size: 1.1rem;
+	}
+	pre {
+		padding: 0.75em;
+		font-size: 0.85em;
+	}
 }

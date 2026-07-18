@@ -108,6 +108,22 @@ const posts = (await getCollection('blog')).sort(
 				color: var(--text-muted);
 				font-size: 0.9rem;
 			}
+			@media (max-width: 600px) {
+				.page-title {
+					font-size: 1.75rem;
+					margin-top: 1.5rem;
+				}
+				.section-title {
+					font-size: 1.25rem;
+				}
+				.post-title {
+					font-size: 1.1rem;
+				}
+				.post-item {
+					margin-bottom: 1.5rem;
+					padding-bottom: 1.5rem;
+				}
+			}
 		</style>
 	</head>
 	<body>
