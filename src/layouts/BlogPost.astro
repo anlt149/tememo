@@ -195,5 +195,33 @@ const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL
 			</article>
 		</main>
 		<Footer />
+		<script>
+			const blocks = document.querySelectorAll('pre');
+			blocks.forEach((block) => {
+				if (block.parentNode?.classList.contains('code-block-wrapper')) return;
+
+				const wrapper = document.createElement('div');
+				wrapper.className = 'code-block-wrapper';
+				
+				block.parentNode?.insertBefore(wrapper, block);
+				wrapper.appendChild(block);
+
+				const copyButton = document.createElement('button');
+				copyButton.className = 'copy-code';
+				copyButton.innerHTML = 'Copy';
+
+				copyButton.addEventListener('click', async () => {
+					const code = block.querySelector('code');
+					const text = code ? code.innerText : block.innerText;
+					await navigator.clipboard.writeText(text);
+					copyButton.innerHTML = 'Copied!';
+					setTimeout(() => {
+						copyButton.innerHTML = 'Copy';
+					}, 2000);
+				});
+
+				wrapper.appendChild(copyButton);
+			});
+		</script>
 	</body>
 </html>
